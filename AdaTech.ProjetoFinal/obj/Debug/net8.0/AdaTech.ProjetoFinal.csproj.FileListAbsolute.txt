@@ -12,3 +12,4 @@ C:\Users\DiverseDev\Documents\Curso - BackEnd C#\Exercicios\AdaTech\AdaTech.Proj
 C:\Users\DiverseDev\Documents\Curso - BackEnd C#\Exercicios\AdaTech\AdaTech.ProjetoFinal\obj\Debug\net8.0\AdaTech.ProjetoFinal.pdb
 C:\Users\DiverseDev\Documents\Curso - BackEnd C#\Exercicios\AdaTech\AdaTech.ProjetoFinal\obj\Debug\net8.0\AdaTech.ProjetoFinal.genruntimeconfig.cache
 C:\Users\DiverseDev\Documents\Curso - BackEnd C#\Exercicios\AdaTech\AdaTech.ProjetoFinal\obj\Debug\net8.0\ref\AdaTech.ProjetoFinal.dll
+C:\Users\DiverseDev\Documents\Curso - BackEnd C#\Exercicios\AdaTech\AdaTech.ProjetoFinal\obj\Debug\net8.0\AdaTech.ProjetoFinal.sourcelink.json

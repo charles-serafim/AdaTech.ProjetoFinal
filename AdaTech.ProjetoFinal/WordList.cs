@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Object;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -123,24 +122,30 @@ namespace AdaTech.ProjetoFinal
 
                     if (response.IsSuccessStatusCode)
                     {
-                        string jsonString = response.Content.ReadAsStringAsync().Result;
+                        string input = response.Content.ReadAsStringAsync().Result;
+                        string jsonString = input.Trim('[', ']');
+                        Console.WriteLine(jsonString);
+                        GoOn();
                         JsonWordMeaningObject jsonWordMeaningObject = JsonSerializer.Deserialize<JsonWordMeaningObject>(jsonString);
 
                         if (jsonWordMeaningObject != null && jsonWordMeaningObject.xml != null)
                         {
                             XDocument xdoc = XDocument.Parse(jsonWordMeaningObject.xml);
-                            Console.WriteLine(jsonWordMeaningObject.xml);
                             meaning = xdoc.Descendants("def").FirstOrDefault()?.Value.Trim();
-                            Console.WriteLine(meaning);
                             return meaning;
                         }
                         else
+                        {
                             Console.WriteLine("Houve um problema na conexão com a API");
+                            GoOn();
+                        }
+
                     }
                     else
                     {
                         Console.WriteLine("Houve um problema na conexão com a API");
                         Console.WriteLine($"Erro na requisição: {response.StatusCode} - {response.ReasonPhrase}");
+                        GoOn();
                     }
                 }
                 catch (Exception ex)
@@ -168,13 +173,13 @@ namespace AdaTech.ProjetoFinal
             public int sense { get; set; }
             public int last_revision { get; set; }
             public int word_id { get; set; }
-            public DateTime timestamp { get; set; }
+            public string timestamp { get; set; }
             public string creator { get; set; }
             public string moderator { get; set; }
             public string normalized { get; set; }
             public string word { get; set; }
-            public string derived_from { get; set; }
-            public string deletor { get; set; }
+            public object derived_from { get; set; }
+            public object deletor { get; set; }
             public string xml { get; set; }
         }
     }

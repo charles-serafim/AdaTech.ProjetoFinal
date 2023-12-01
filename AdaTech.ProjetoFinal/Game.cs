@@ -123,7 +123,7 @@ _/   \_                                              _/   \_
                 else
                 {
                     GameOver(word[1]);
-                    continue;
+                    break;
                 }
 
                 Console.WriteLine(word[1]);
@@ -137,7 +137,7 @@ _/   \_                                              _/   \_
         {
             Console.Clear();
             Console.WriteLine($"Categoria: {word[0]}");
-            if(word[0] == "Palavra aleatória") Console.WriteLine($"Dica: {word[2]}");
+            if(word[0] == "Palavra aleatória") Console.WriteLine($"Definição do dicionário: {word[2]}");
 
             Console.Write($"Tentativas: ");
             foreach (char letter in letters)
@@ -163,6 +163,7 @@ _/   \_                                              _/   \_
         {
             Console.Clear();
             Console.WriteLine($"Você já tentou a letra \"{letter}\"! Digite outra letra.");
+            Console.ReadLine();
         }
 
         private static bool VerifyAllLetters(string word, string letters)
