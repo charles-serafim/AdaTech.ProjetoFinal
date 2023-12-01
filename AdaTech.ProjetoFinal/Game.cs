@@ -120,22 +120,27 @@ _/   \_                                              _/   \_
                     victory = VerifyAllLetters(word[1].ToUpper(), letters);
                 }
                 // exibe tela de Game Over
-                else GameOver(word[1]);
+                else
+                {
+                    GameOver(word[1]);
+                    continue;
+                }
 
                 Console.WriteLine(word[1]);
                 Console.WriteLine(word[1].ToUpper());
 
                 attempts++;
-            }                        
+            }
         }
 
         private static void PrintGameScreen(string[] word, string letters, int errors)
         {
             Console.Clear();
             Console.WriteLine($"Categoria: {word[0]}");
-            
+            if(word[0] == "Palavra aleatória") Console.WriteLine($"Dica: {word[2]}");
+
             Console.Write($"Tentativas: ");
-            foreach(char letter in letters)
+            foreach (char letter in letters)
             {
                 Console.Write($"{letter} ");
             }
@@ -152,7 +157,7 @@ _/   \_                                              _/   \_
             Console.WriteLine();
 
             Console.WriteLine($"Tentativas restantes: {6 - errors}");
-        }        
+        }
 
         private static void PrintRepeatedLetterMessage(char letter)
         {
@@ -162,7 +167,7 @@ _/   \_                                              _/   \_
 
         private static bool VerifyAllLetters(string word, string letters)
         {
-            foreach(char letter in word)
+            foreach (char letter in word)
             {
                 if (!letters.Contains(letter)) return false;
             }

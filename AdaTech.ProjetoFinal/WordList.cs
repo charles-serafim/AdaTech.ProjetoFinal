@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Object;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+
 
 namespace AdaTech.ProjetoFinal
 {
@@ -14,7 +17,7 @@ namespace AdaTech.ProjetoFinal
         // ou uma palavra aleatória gerada através da API "https://api.dicionario-aberto.net/"
         public string[] ChooseWord()
         {
-            string[] word = new string[2];
+            string[] word = new string[3];
 
             Dictionary<int, string[]> wordList = new Dictionary<int, string[]>
             {
@@ -58,11 +61,13 @@ namespace AdaTech.ProjetoFinal
                 int randomIndex = random.Next(0, words.Length);
                 word[0] = categoryList[option];
                 word[1] = words[randomIndex];
+                word[2] = "";
             }
             else
             {
                 word[0] = "Palavra aleatória";
                 word[1] = RandomWordFromAPI();
+                word[2] = RandomWordMeaningFromAPI(word[1]);
             }
 
             return word;
@@ -82,10 +87,10 @@ namespace AdaTech.ProjetoFinal
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonString = response.Content.ReadAsStringAsync().Result;
-                        JsonObject jsonObject = JsonSerializer.Deserialize<JsonObject>(jsonString);
+                        JsonWordObject jsonWordObject = JsonSerializer.Deserialize<JsonWordObject>(jsonString);
 
-                        if (jsonObject != null && jsonObject.word != null)
-                            return jsonObject.word;
+                        if (jsonWordObject != null && jsonWordObject.word != null)
+                            return jsonWordObject.word;
                         else
                             Console.WriteLine("Houve um problema na conexão com a API");
                     }
@@ -105,12 +110,72 @@ namespace AdaTech.ProjetoFinal
             }
         }
 
+        private static string RandomWordMeaningFromAPI(string word)
+        {
+            string apiUrl = "https://api.dicionario-aberto.net/word/" + word;
+            string meaning;
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage response = httpClient.GetAsync(apiUrl).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonString = response.Content.ReadAsStringAsync().Result;
+                        JsonWordMeaningObject jsonWordMeaningObject = JsonSerializer.Deserialize<JsonWordMeaningObject>(jsonString);
+
+                        if (jsonWordMeaningObject != null && jsonWordMeaningObject.xml != null)
+                        {
+                            XDocument xdoc = XDocument.Parse(jsonWordMeaningObject.xml);
+                            Console.WriteLine(jsonWordMeaningObject.xml);
+                            meaning = xdoc.Descendants("def").FirstOrDefault()?.Value.Trim();
+                            Console.WriteLine(meaning);
+                            return meaning;
+                        }
+                        else
+                            Console.WriteLine("Houve um problema na conexão com a API");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Houve um problema na conexão com a API");
+                        Console.WriteLine($"Erro na requisição: {response.StatusCode} - {response.ReasonPhrase}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Houve um problema na conexão com a API");
+                    Console.WriteLine($"Erro na requisição: {ex.Message}");
+                }
+
+                return "Relacionado com a doença que ataca os pulmões, causada pela inalação de cinzas vulcânicas, provenientes de vulcões.\nRefere-se à pneumoultramicroscopicossilicovulcanoconiose (doença).";
+            }
+        }
+
         // Classe modelo do objeto retornado pela API
-        internal class JsonObject
+        internal class JsonWordObject
         {
             public int sense { get; set; }
             public int wid { get; set; }
             public string word { get; set; }
+        }
+
+        internal class JsonWordMeaningObject
+        {
+            public int deleted { get; set; }
+            public int revision_id { get; set; }
+            public int sense { get; set; }
+            public int last_revision { get; set; }
+            public int word_id { get; set; }
+            public DateTime timestamp { get; set; }
+            public string creator { get; set; }
+            public string moderator { get; set; }
+            public string normalized { get; set; }
+            public string word { get; set; }
+            public string derived_from { get; set; }
+            public string deletor { get; set; }
+            public string xml { get; set; }
         }
     }
 }
