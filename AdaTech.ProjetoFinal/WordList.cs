@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -16,7 +18,7 @@ namespace AdaTech.ProjetoFinal
         // ou uma palavra aleatória gerada através da API "https://api.dicionario-aberto.net/"
         public string[] ChooseWord()
         {
-            string[] word = new string[3];
+            string[] word = new string[4];
 
             Dictionary<int, string[]> wordList = new Dictionary<int, string[]>
             {
@@ -48,7 +50,7 @@ namespace AdaTech.ProjetoFinal
             Console.WriteLine("5. Países");
             Console.WriteLine("6. Capitais de Países");
             Console.WriteLine("7. Capitais Brasileiras");
-            Console.WriteLine("8. Palavra surpresa (?)");
+            Console.WriteLine("8. Palavra surpresa - HARD to EXTRA HARD");
 
             int option = ReadOption(1, 8);
 
@@ -61,15 +63,43 @@ namespace AdaTech.ProjetoFinal
                 word[0] = categoryList[option];
                 word[1] = words[randomIndex];
                 word[2] = "";
+                word[3] = NormalizeWord(word[1]);
             }
             else
             {
+                Console.WriteLine("Carregando.....");
                 word[0] = "Palavra aleatória";
                 word[1] = RandomWordFromAPI();
                 word[2] = RandomWordMeaningFromAPI(word[1]);
+                word[3] = NormalizeWord(word[1]);
             }
 
             return word;
+        }
+
+        public string NormalizeWord(string word)
+        {
+            string normalizedWord = RemoveDiacriticsAndSpaces(word);
+            Regex regex = new Regex("[^a-zA-Z0-9]");
+
+            return regex.Replace(normalizedWord, "");
+        }
+
+        private string RemoveDiacriticsAndSpaces(string text)
+        {
+            string normalizedString = text.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (char c in normalizedString)
+            {
+                UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (category != UnicodeCategory.NonSpacingMark && !char.IsWhiteSpace(c))
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString();
         }
 
         // Método que consulta a API "https://api.dicionario-aberto.net/" e devolve uma palvra aleatória
@@ -124,8 +154,6 @@ namespace AdaTech.ProjetoFinal
                     {
                         string input = response.Content.ReadAsStringAsync().Result;
                         string jsonString = input.Trim('[', ']');
-                        Console.WriteLine(jsonString);
-                        GoOn();
                         JsonWordMeaningObject jsonWordMeaningObject = JsonSerializer.Deserialize<JsonWordMeaningObject>(jsonString);
 
                         if (jsonWordMeaningObject != null && jsonWordMeaningObject.xml != null)
@@ -136,6 +164,7 @@ namespace AdaTech.ProjetoFinal
                         }
                         else
                         {
+                            meaning = "";
                             Console.WriteLine("Houve um problema na conexão com a API");
                             GoOn();
                         }
@@ -143,6 +172,7 @@ namespace AdaTech.ProjetoFinal
                     }
                     else
                     {
+                        meaning = "";
                         Console.WriteLine("Houve um problema na conexão com a API");
                         Console.WriteLine($"Erro na requisição: {response.StatusCode} - {response.ReasonPhrase}");
                         GoOn();
@@ -150,6 +180,7 @@ namespace AdaTech.ProjetoFinal
                 }
                 catch (Exception ex)
                 {
+                    meaning = "";
                     Console.WriteLine("Houve um problema na conexão com a API");
                     Console.WriteLine($"Erro na requisição: {ex.Message}");
                 }

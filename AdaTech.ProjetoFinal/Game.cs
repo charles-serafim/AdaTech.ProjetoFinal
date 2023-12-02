@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Intrinsics.X86;
@@ -115,9 +116,9 @@ _/   \_                                              _/   \_
                         continue;
                     }
 
-                    if (!VerifyLetter(word[1].ToUpper(), char.ToUpper(letter))) errors++;
+                    if (!VerifyLetter(word[3].ToUpper(), char.ToUpper(letter))) errors++;
 
-                    victory = VerifyAllLetters(word[1].ToUpper(), letters);
+                    victory = VerifyAllLetters(word[3].ToUpper(), letters);
                 }
                 // exibe tela de Game Over
                 else
@@ -149,7 +150,7 @@ _/   \_                                              _/   \_
             PrintLittlePerson(errors);
 
             Console.Write("| ");
-            foreach (char letter in word[1])
+            foreach (char letter in word[3])
             {
                 Console.Write(letters.Contains(char.ToUpper(letter)) ? $"{char.ToUpper(letter)} " : "_ ");
             }

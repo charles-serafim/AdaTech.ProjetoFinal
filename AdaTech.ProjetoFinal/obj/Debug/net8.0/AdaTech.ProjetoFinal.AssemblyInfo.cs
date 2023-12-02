@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AdaTech.ProjetoFinal")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4be929b62a4caf538d61203862e56c0fb4e8e784")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed4707654be98e05afe909b991e92c462cc619f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("AdaTech.ProjetoFinal")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AdaTech.ProjetoFinal")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
