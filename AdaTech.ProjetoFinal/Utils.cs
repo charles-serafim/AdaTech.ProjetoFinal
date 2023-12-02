@@ -150,20 +150,26 @@ namespace AdaTech.ProjetoFinal
             }
         }
 
-        public static void GameOver(string word)
+        public static void GameOver(string word, string letters, int errors, int attempts)
         {
-            RevealWord(word);
+            Console.Clear();
+            Console.WriteLine(@"
+░██████╗░░█████╗░███╗░░░███╗███████╗  ░█████╗░██╗░░░██╗███████╗██████╗░
+██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██║░░░██║██╔════╝██╔══██╗
+██║░░██╗░███████║██╔████╔██║█████╗░░  ██║░░██║╚██╗░██╔╝█████╗░░██████╔╝
+██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██║░░██║░╚████╔╝░██╔══╝░░██╔══██╗
+╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ╚█████╔╝░░╚██╔╝░░███████╗██║░░██║
+░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ░╚════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝");
 
             Console.WriteLine();
-            Console.WriteLine(@"
-███████╗██╗███╗░░░███╗  ██████╗░███████╗  ░░░░░██╗░█████╗░░██████╗░░█████╗░
-██╔════╝██║████╗░████║  ██╔══██╗██╔════╝  ░░░░░██║██╔══██╗██╔════╝░██╔══██╗
-█████╗░░██║██╔████╔██║  ██║░░██║█████╗░░  ░░░░░██║██║░░██║██║░░██╗░██║░░██║
-██╔══╝░░██║██║╚██╔╝██║  ██║░░██║██╔══╝░░  ██╗░░██║██║░░██║██║░░╚██╗██║░░██║
-██║░░░░░██║██║░╚═╝░██║  ██████╔╝███████╗  ╚█████╔╝╚█████╔╝╚██████╔╝╚█████╔╝
-╚═╝░░░░░╚═╝╚═╝░░░░░╚═╝  ╚═════╝░╚══════╝  ░╚════╝░░╚════╝░░╚═════╝░░╚════╝░");
-
-            GoOn();
+            Console.WriteLine();
+            Console.WriteLine($"Você fez {attempts} tentativas!");
+            Console.WriteLine($"Quantidade de erros: {errors}");
+            Console.WriteLine("Tentou as letras:");
+            foreach (char letter in letters) Console.Write($"{letter} ");
+            Console.WriteLine();
+            Console.WriteLine();
+            RevealWord(word);
         }
 
         public static void Victory(string word, string letters, int errors, int attempts)

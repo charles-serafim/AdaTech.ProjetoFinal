@@ -123,7 +123,7 @@ _/   \_                                              _/   \_
                 // exibe tela de Game Over
                 else
                 {
-                    GameOver(word[1]);
+                    GameOver(word[1], letters, errors, attempts);
                     break;
                 }
 
@@ -138,7 +138,7 @@ _/   \_                                              _/   \_
         {
             Console.Clear();
             Console.WriteLine($"Categoria: {word[0]}");
-            if(word[0] == "Palavra aleatória") Console.WriteLine($"Definição do dicionário: {word[2]}");
+            if(word[0] == "Palavra aleatória com dica") Console.WriteLine($"Definição do dicionário: {word[2]}");
 
             Console.Write($"Tentativas: ");
             foreach (char letter in letters)

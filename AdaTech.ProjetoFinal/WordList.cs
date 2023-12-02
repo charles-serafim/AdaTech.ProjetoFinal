@@ -50,11 +50,12 @@ namespace AdaTech.ProjetoFinal
             Console.WriteLine("5. Países");
             Console.WriteLine("6. Capitais de Países");
             Console.WriteLine("7. Capitais Brasileiras");
-            Console.WriteLine("8. Palavra surpresa - HARD to EXTRA HARD");
+            Console.WriteLine("8. Palavra surpresa com dica");
+            Console.WriteLine("9. Palavra surpresa sem dica - Nível Hard to EXTRA HARD");
 
-            int option = ReadOption(1, 8);
+            int option = ReadOption(1, 9);
 
-            if (option != 8)
+            if (option < 8) // categorias armazenadas
             {
                 string category;
                 string[] words = wordList[option];
@@ -65,12 +66,20 @@ namespace AdaTech.ProjetoFinal
                 word[2] = "";
                 word[3] = NormalizeWord(word[1]);
             }
-            else
+            else if(option == 8) // palavra aleatoria da API com dica
             {
                 Console.WriteLine("Carregando.....");
-                word[0] = "Palavra aleatória";
+                word[0] = "Palavra aleatória com dica";
                 word[1] = RandomWordFromAPI();
                 word[2] = RandomWordMeaningFromAPI(word[1]);
+                word[3] = NormalizeWord(word[1]);
+            }
+            else // palavra aleatoria da API sem dica
+            {
+                Console.WriteLine("Carregando.....");
+                word[0] = "Palavra aleatória sem dica";
+                word[1] = RandomWordFromAPI();
+                word[2] = "";
                 word[3] = NormalizeWord(word[1]);
             }
 
