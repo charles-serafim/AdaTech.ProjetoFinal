@@ -12,6 +12,12 @@ Jogo de console construído para o projeto do Módulo 1 - Lógica de Programaç�
 6. Ou quando a quantidade máxima de tentativas é atingida
 7. Isso significa que seu boneco foi enforcado!!! MORREU!!! GAME OVER!!!
 
+## Features
+
+- 7 categorias de palavras armazenadas
+- 2 categorias de palavras aleatórias
+- Consulta à API [Dicionario Aberto: API](https://api.dicionario-aberto.net/) para geração de palavras aleatórias e busca de significados
+
 
 ## Conceitos abordados
 
